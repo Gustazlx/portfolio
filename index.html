@@ -1,14 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gustavo Thezolin – Portfólio</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gustavo Thezolin – Portfólio</title>
+<meta name="description" content="Portfólio de Gustavo de Oliveira Thezolin, estudante de Ciência da Computação na UVV.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js'</script>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Em construção</h1>
-  <p>Portfólio de Gustavo Thezolin, estudante de Ciência da Computação.</p>
-  <script src="js/main.js"></script>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header class="top">
+  <a class="brand" href="#inicio">Gustavo Thezolin</a>
+  <nav aria-label="Principal">
+    <a href="#projetos">Projetos</a>
+    <a href="#robo">Robô sumo</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<main>
+  <section id="inicio" class="hero">
+    <p class="eyebrow">✦ Bem-vindo</p>
+    <h1 id="nome">Gustavo de Oliveira Thezolin</h1>
+    <p class="lead">Estudo Ciência da Computação na UVV e gosto de ver uma ideia virar algo que funcione e que possa ser útil para as pessoas.</p>
+    <div class="actions">
+      <a class="btn fill" href="#projetos">Ver o que já fiz</a>
+      <!-- Coloque o arquivo curriculo.pdf na mesma pasta do index.html -->
+      <a class="btn line" href="curriculo.pdf">Baixar currículo</a>
+    </div>
+  </section>
+
+  <section id="projetos">
+    <h2 class="reveal">Projetos</h2>
+    <p class="sub reveal">O que já saiu do papel.</p>
+    <div class="cards">
+
+      <article class="card has-icon reveal" data-tilt>
+        <!-- Salve o ícone do InovaMove em img/inovamove-icon.png (veja as instruções na conversa) -->
+        <img class="icon" src="img/inovamove-icon.png" alt="Logo do InovaMove" width="72" height="72" onerror="this.remove()">
+        <p class="tag">✦ Trabalho em equipe</p>
+        <h3>InovaMove</h3>
+        <p>Um site pensado para facilitar a vida de quem precisa de acessibilidade ao usar o Transcol, em Vitória. Nasceu como projeto da faculdade e foi apresentado na InovaWeek da UVV.</p>
+        <p>Dá para instalar no celular como se fosse um aplicativo e ajustar o visual às suas necessidades. As mudanças só valem para o site todo quando você salva, e antes disso aparece uma prévia.</p>
+        <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PWA</li></ul>
+        <a href="https://bryan-17-ux.github.io/inovamove/">Abrir o projeto no ar</a>
+      </article>
+
+      <article class="card reveal" data-tilt>
+        <p class="tag">✦ Eletrônica e robótica</p>
+        <h3>Robô sumo</h3>
+        <p>Um robô de combate montado por mim, com peças de eletrônica e carcaça impressa em 3D. O objetivo é simples: empurrar o adversário para fora da arena sem cair junto.</p>
+        <ul class="chips"><li>Arduino</li><li>Sensores</li><li>Motores</li><li>Impressão 3D</li></ul>
+        <a href="#robo">Ver como ele funciona</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="robo">
+    <h2 class="reveal">Robô sumo, por dentro</h2>
+    <p class="about reveal">No sumô de robôs, dois competidores se enfrentam numa arena redonda escura, com a borda clara, e perde quem sai dela. Para ter chance, o robô precisa fazer três coisas: achar o adversário, não cair da arena e empurrar com força. Cada peça do meu robô cuida de uma parte disso.</p>
+
+    <div class="parts">
+      <div class="part reveal"><h3>Cérebro</h3><p><strong>Arduino Nano.</strong> Uma placa pequena que lê os sensores e decide o que os motores devem fazer.</p></div>
+      <div class="part reveal"><h3>Olho para o adversário</h3><p><strong>Sensor ultrassônico HC-SR04.</strong> Envia um pulso de som e mede quanto tempo o eco demora a voltar, o que dá a distância até o oponente.</p></div>
+      <div class="part reveal"><h3>Olho para o chão</h3><p><strong>Sensor de linha TCRT5000.</strong> Percebe a diferença entre o preto da arena e a borda clara, e avisa o robô antes que ele caia.</p></div>
+      <div class="part reveal"><h3>Músculos</h3><p><strong>2 motores N20 e ponte H TB6612FNG.</strong> Os motores giram as rodas, e a ponte H controla a velocidade e o sentido de cada um.</p></div>
+      <div class="part reveal"><h3>Energia</h3><p><strong>Bateria LiPo de 7,4 V e regulador LM2596.</strong> A bateria alimenta tudo, e o regulador reduz a tensão para um valor que os componentes aguentam.</p></div>
+      <div class="part reveal"><h3>Comando</h3><p><strong>Receptor infravermelho VS1838B.</strong> Recebe sinais de um controle remoto.</p></div>
+      <div class="part reveal"><h3>Corpo</h3><p><strong>Carcaça impressa em 3D e rodas macias.</strong> A estrutura abriga a eletrônica, e as rodas macias aderem melhor ao piso da arena.</p></div>
+    </div>
+
+    <h3 class="mini reveal">A ideia de funcionamento</h3>
+    <p class="about reveal">Em geral, um robô desse tipo gira procurando o oponente, avança quando o sensor de distância o encontra e recua ou desvia quando o sensor de linha detecta a borda da arena.</p>
+
+    <!-- GALERIA: quando tiver as fotos, salve em img/ e descomente o bloco abaixo.
+    <div class="gallery reveal">
+      <img src="img/robo-1.jpg" alt="Descreva a foto aqui">
+      <img src="img/robo-2.jpg" alt="Descreva a foto aqui">
+    </div>
+    -->
+  </section>
+
+  <section id="sobre">
+    <h2 class="reveal">Sobre mim</h2>
+    <p class="about reveal">Sou o Gustavo, estudante do 4º período de Ciência da Computação na UVV, em Vitória. Meu interesse por tecnologia cresce a cada semestre, e ainda estou descobrindo em qual área quero atuar. Por enquanto, meu foco é aprender fazendo.</p>
+    <p class="about reveal">Programo em C e estou aprendendo Java e orientação a objetos. Na web, trabalho com HTML, CSS e JavaScript, e aprendi Git e GitHub do zero ao publicar o InovaMove. Também me divirto com eletrônica: o robô sumo com Arduino foi meu primeiro projeto nessa área.</p>
+    <p class="about reveal">Fora da tela, gosto de jogar e pescar com os amigos.</p>
+    <ul class="chips big reveal"><li>C</li><li>Java</li><li>JavaScript</li><li>HTML e CSS</li><li>Git e GitHub</li><li>Arduino</li></ul>
+  </section>
+
+  <section id="contato">
+    <h2 class="reveal">Vamos conversar?</h2>
+    <p class="sub reveal">Estou em busca de um estágio em tecnologia. Se algum projeto chamou sua atenção, me escreva.</p>
+    <div class="links reveal">
+      <a href="mailto:gustavodeoliveirathezolin@gmail.com">E-mail</a>
+      <a href="https://www.linkedin.com/in/gustavo-de-oliveira-thezolin-743574350/">LinkedIn</a>
+      <a href="https://github.com/Gustazlx">GitHub</a>
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 Gustavo de Oliveira Thezolin · Vitória, ES</footer>
+<script src="js/main.js"></script>
 </body>
 </html>
