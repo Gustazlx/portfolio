@@ -1,4 +1,5 @@
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasMouse = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 /* ===== 1. Nome animado palavra por palavra ===== */
 const nome = document.getElementById('nome');
@@ -9,13 +10,16 @@ nome.innerHTML = nome.textContent.trim().split(' ')
 const canvas = document.getElementById('sky');
 const ctx = canvas.getContext('2d');
 let w, h, dpr, stars = [], shoot = null, nextShoot = 4000;
-let mx = 0, my = 0, tx = 0, ty = 0;
+let mx = 0, my = 0, tx = 0, ty = 0, lastWidth = 0;
 
 function setup() {
   dpr = Math.min(window.devicePixelRatio || 1, 2);
   w = canvas.width = innerWidth * dpr;
   h = canvas.height = innerHeight * dpr;
-  const total = Math.round((innerWidth * innerHeight) / 6500);
+  lastWidth = innerWidth;
+  // menos estrelas em telas pequenas, para ficar leve no celular
+  const density = innerWidth < 700 ? 9500 : 6500;
+  const total = Math.round((innerWidth * innerHeight) / density);
   // z = profundidade: estrelas mais próximas (z alto) se movem mais
   stars = Array.from({ length: total }, () => ({
     x: Math.random() * w, y: Math.random() * h,
@@ -33,7 +37,6 @@ function draw(ts = 0) {
     const px = wrap(s.x - mx * s.z * 40 * dpr, w);
     const py = wrap(s.y - my * s.z * 25 * dpr - scrollY * s.z * 0.12 * dpr, h);
     const a = 0.35 + 0.65 * Math.abs(Math.sin(ts / 1100 * s.z + s.t));
-    // estrelas próximas puxam para o roxo claro, as outras ficam brancas
     ctx.fillStyle = s.z > 0.8 ? `rgba(196,181,253,${a})` : `rgba(235,235,255,${a})`;
     ctx.beginPath();
     ctx.arc(px, py, (s.z * 1.3 + 0.3) * dpr, 0, 6.28);
@@ -62,11 +65,19 @@ function draw(ts = 0) {
 
 setup();
 draw();
-addEventListener('resize', () => { setup(); if (reduceMotion) draw(); });
-addEventListener('pointermove', e => {
-  tx = e.clientX / innerWidth - 0.5;
-  ty = e.clientY / innerHeight - 0.5;
+// No celular, a barra do navegador some e aparece ao rolar e dispara "resize".
+// Só recriamos o céu quando a LARGURA muda (girar o aparelho, redimensionar a janela).
+addEventListener('resize', () => {
+  if (innerWidth === lastWidth) return;
+  setup();
+  if (reduceMotion) draw();
 });
+if (hasMouse) {
+  addEventListener('pointermove', e => {
+    tx = e.clientX / innerWidth - 0.5;
+    ty = e.clientY / innerHeight - 0.5;
+  });
+}
 
 /* ===== 3. Revelar elementos ao rolar a página ===== */
 const revealObs = new IntersectionObserver((entries) => {
@@ -74,12 +85,8 @@ const revealObs = new IntersectionObserver((entries) => {
     if (!en.isIntersecting) return;
     en.target.classList.add('in');
     revealObs.unobserve(en.target);
-    // depois de aparecer, o card fica livre para a inclinação responder rápido
-    if (en.target.matches('.card')) {
-      setTimeout(() => en.target.classList.remove('reveal'), 900);
-    }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
 /* ===== 4. Destacar no menu a seção atual ===== */
@@ -93,21 +100,4 @@ const navObs = new IntersectionObserver((entries) => {
     });
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
-document.querySelectorAll('main section').forEach(s => navObs.observe(s));
-
-/* ===== 5. Inclinação suave dos cards ao passar o mouse ===== */
-if (!reduceMotion) {
-  document.querySelectorAll('[data-tilt]').forEach(card => {
-    card.addEventListener('pointermove', e => {
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      card.style.setProperty('--ry', (px * 8).toFixed(2) + 'deg');
-      card.style.setProperty('--rx', (-py * 8).toFixed(2) + 'deg');
-    });
-    card.addEventListener('pointerleave', () => {
-      card.style.setProperty('--rx', '0deg');
-      card.style.setProperty('--ry', '0deg');
-    });
-  });
-}
+document.querySelectorAll('main section, footer').forEach(s => navObs.observe(s));
