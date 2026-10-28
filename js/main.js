@@ -101,3 +101,23 @@ const navObs = new IntersectionObserver((entries) => {
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
 document.querySelectorAll('main section, footer').forEach(s => navObs.observe(s));
+
+/* ===== 5. Botão "Copiar e-mail" ===== */
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const texto = btn.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(texto);
+    } catch {
+      // alternativa para navegadores sem acesso à área de transferência
+      const t = document.createElement('textarea');
+      t.value = texto; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      document.execCommand('copy');
+      t.remove();
+    }
+    const original = btn.textContent;
+    btn.textContent = 'Copiado!';
+    setTimeout(() => { btn.textContent = original; }, 2000);
+  });
+});

@@ -82,6 +82,11 @@ h2::after{content:"";display:block;width:3.5rem;height:.3rem;border-radius:1rem;
 
 /* ===== Contato (rodapé) ===== */
 footer{padding-block:clamp(2.5rem,7vw,4rem) max(2rem,env(safe-area-inset-bottom))}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;margin:0 0 1.2rem}
+.mail-text{font-weight:600;font-size:1.1rem;overflow-wrap:anywhere}
+.copy-btn{font:600 .92rem var(--body);color:var(--accent);background:transparent;border:1px solid var(--line);border-radius:2rem;padding:.45rem 1rem;min-height:2.4rem;cursor:pointer;transition:border-color .2s,background .2s}
+.copy-btn:hover{border-color:var(--accent);background:rgba(139,92,246,.12)}
+.copy-btn:focus-visible{outline:3px solid var(--star);outline-offset:3px}
 .links{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem}
 .links a{display:inline-flex;align-items:center;min-height:2.8rem;padding:.6rem 1.5rem;border:1px solid var(--line);border-radius:3rem;
   background:linear-gradient(145deg,rgba(139,92,246,.2),rgba(8,5,16,.7));font-weight:600;text-decoration:none;transition:transform .2s,border-color .2s}
@@ -103,6 +108,7 @@ footer{padding-block:clamp(2.5rem,7vw,4rem) max(2rem,env(safe-area-inset-bottom)
   body{font-size:1rem}
   .top{justify-content:center}
   .actions .btn,.card-actions .btn,.links a{flex:1 1 100%;justify-content:center}
+  .copy-btn{width:100%}
   .specs{grid-template-columns:1fr}
   .specs dt{padding-bottom:0;border-bottom:0}
 }
